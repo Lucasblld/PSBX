@@ -1,0 +1,205 @@
+---
+title: "DATAFRAME TUTO"
+author: "Maxime & Lucas"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+```
+<style>
+.column-left{
+  float: left;
+  width: 48%;
+  text-align: left;
+}
+.column-right{
+  float: right;
+  width: 48%;
+  text-align: right;
+}
+.column-center{
+  float: center;
+  width: 100%;
+  text-align: center;
+</style>
+
+# I. Créer une dataframe R vs Python
+
+Comment créer un tableau qui contient différents type de données. 
+
+<div class="column-left">
+```{r}
+Rang <- matrix(c(1,3,2,4), nrow=4,ncol=1)
+Nom <- c("Aline","Bertrand","Charlie","Adrien") 
+Age <- c(15,20,58,32)
+Sexe <- c("F","H","H","H") 
+Sex <- factor(Sexe) 
+df <- data.frame(Rang,Nom,Sex,Age) 
+
+```
+```{r}
+df 
+```
+</div>
+
+<div class="column-right">
+```{python}
+import pandas as pd 
+
+Nom=["Aline","Bertrand","Charlie","Adrien"]
+Sexe=["F","H","H","H"]
+Age=[15,20,58,32]
+df=pd.DataFrame({"Nom":Nom,"Sexe":Sexe,"Age":Age})
+```
+```{r}
+head(py$df)
+```
+</div>
+
+commentaire et différence : 
+
+# II.Traitement de données 
+
+## 1. Import de Dataframe
+
+<div class="column-left">
+```{r}
+data<-read.csv("donnees.csv",header=TRUE,encoding="UTF-8")
+```
+</div>
+
+<div class="column-right">
+```{python}
+data=pd.read_csv("donnees.csv",encoding="UTF-8")
+```
+</div>
+
+
+```{r, echo=FALSE}
+knitr::kable(head(py$data))
+```
+
+
+## 2. Structure de données
+
+<div class="column-left">
+```{r}
+str(data)
+```
+</div>
+
+<div class="column-right">
+```{python}
+data.info()
+```
+</div>
+
+<div class="column-left">
+```{r}
+data[1050 : 1058,] #extraction des 8 dernieres lignes
+```
+</div>
+
+<div class="column-right">
+```{r}
+py$data[1050:1058,]
+```
+</div class="column-right">
+
+
+
+rgzvrvtetertbzetrztnet
+
+##    3. Résumé statistiques
+
+
+```{r}
+summary(data)#permet d'obtenir un resume statistiques
+```
+
+
+
+```{python}
+data.describe()
+```
+
+```{python}
+data["sportif"].value_counts()
+```
+
+```{python}
+def count(val): 
+  for i in val : 
+    print(data[i].value_counts())
+  
+count(["fumeur","sportif"])
+
+```
+
+## 4. MODIFICATION D'UNE VALEUR DE LA TABLE DE DONNEES
+
+<div class="column-left">
+```{r}
+data[2,]$genre<-"F" 
+data[1,1]<-"F" 
+```
+```{r}
+head(data)
+```
+</div>
+
+<div class="column-right">
+```{python}
+data.loc[1,"genre"] = "F"
+data.iloc[0,0] = "F"
+```
+```{r}
+head(py$data)
+```
+</div>
+
+commentaire sur les ..... 
+
+## 5. AJOUT D'UNE OU PLUSIEURS COLONNES A LA TABLE DE DONNEES
+
+<div class="column-left">
+```{r}
+taille_m = data$taille/100 
+n_data<-cbind(data,taille_m) 
+#head(n_data)
+```
+</div>
+<div class="column-right">
+```{python}
+taille_m = data["taille"]/100
+data["taille_m"] = taille_m
+#data.head()
+```
+</div>
+
+```{r, echo = FALSE}
+knitr::kable(head(py$data))
+```
+
+
+
+## 6. SUPPRESSION D'UNE COLONNE
+<div class="column-left">
+```{r}
+n_data <-subset(n_data, select=-c(taille_m))
+```
+</div>
+<div class="column-right">
+```{python}
+data = data.drop(["taille_m"], axis=1)
+```
+</div>
+```{r, echo = FALSE}
+knitr::kable(head(py$data))
+```
+
