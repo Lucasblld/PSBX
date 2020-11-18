@@ -6,10 +6,10 @@ I will also report different update on important folders/files.
 ## Update : 
 
 Dataframe manipulation last version : 18/11/2020
--- .Rmd file, .pdf
--- basic dataframe manipulation (R & Python), Data Cleaning (R & Python) 
-
-
+<p>
+ - .Rmd file, .pdf
+ - basic dataframe manipulation (R & Python), Data Cleaning (R & Python) 
+</p>
 
 
 
