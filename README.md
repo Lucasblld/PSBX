@@ -1,3 +1,19 @@
-# PSBX
+# READ ME 
 
-l^^pôpjih
+You can find here all the sujbect seen in class. 
+I will also report different update on important folders/files. 
+
+## Update : 
+
+Dataframe manipulation last version : 18/11/2020
+-- .Rmd file, .pdf
+-- basic dataframe manipulation (R & Python), Data Cleaning (R & Python) 
+
+
+
+
+
+
+
+
+
