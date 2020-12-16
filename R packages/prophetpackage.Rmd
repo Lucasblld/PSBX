@@ -1,0 +1,149 @@
+---
+title: 'Prophet pacakge '
+author: "Lucas"
+date: "30 novembre 2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview and definition 
+
+## What is Prophet ? 
+
+Prophet is an open source package developed by Facebook Data Science Team in order to resolve business problems related to time series forecasting. 
+Prophet is a procedure to forecast time series based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects. It works best with time series that have strong seasonal effects and several seasons of historical data. 
+Prophet is robust to missing data and shifts in the trend, and typically handles outliers well.
+
+Prophet is optimized for the business forecast tasks which typically have any of the following characteristics:
+
+- hourly, daily, or weekly observations with at least a few months (preferably a year) of history
+strong multiple “human-scale” seasonalities: day of week and time of year
+- important holidays that occur at irregular intervals that are known in advance (e.g. the Super Bowl)
+- a reasonable number of missing observations or large outliers
+- historical trend changes, for instance due to product launches or logging changes
+- trends that are non-linear growth curves, where a trend hits a natural limit or saturates
+
+Prophet’s default settings can produce forecasts that are often accurate as those produced by skilled forecasters, with much less effort. With Prophet, you are not stuck with the results of a completely automatic procedure if the forecast is not satisfactory — an analyst with no training in time series methods can improve or tweak forecasts using a variety of easily-interpretable parameters. By combining automatic forecasting with analyst-in-the-loop forecasts for special cases, it is possible to cover a wide variety of business use-cases.
+
+Therefore, the goal behind Prophet is to "make it easier for experts and non-experts to make high-quality forecasts that keep up with demand."
+
+
+## Real world Use caseof Prophet (some example)
+
+- Prophet is used in many applications across Facebook for producing reliable forecasts for planning and goal setting
+- forecast how many cars must be produce monthly to respond to the global demand 
+- forecast how many PS5 will be sold over years to prevent over producing 
+
+## Time series 
+
+
+
+
+some def...
+
+- time series : 
+- seasonality : 
+- trends : 
+- additive model : 
+- Generalized Additive model
+
+https://facebook.github.io/prophet/
+https://medium.com/future-vision/intro-to-prophet-9d5b1cbd674e
+https://ledatascientist.com/facebook-prophet-la-prevision-a-grande-echelle/
+https://towardsdatascience.com/a-quick-start-of-time-series-forecasting-with-a-practical-example-using-fb-prophet-31c4447a2274
+https://mode.com/example-gallery/forecasting_prophet_r_cookbook/
+https://peerj.com/preprints/3190/
+https://research.fb.com/blog/2017/02/prophet-forecasting-at-scale/
+
+
+
+# Intuition behind Prophet 
+
+# Some Maths for a better understanding 
+
+## typical time series 
+
+## time series forecastiong with prophet 
+
+# How to install prophet 
+first, you need to install Rtools (follow the step on the CRAN) : https://cran.r-project.org/bin/windows/Rtools/
+
+
+# A simple model with prophet  
+
+Before using Prophet you need to install it. 
+It is a CRAN Package, so you can use install.packages(<package_name>)
+
+```{r}
+#install.packages('prophet')
+```
+
+Now that the package is installed, let's have a quick overview of how to use prophet in R. 
+We will use a csv file available here : https://github.com/facebook/prophet/blob/master/examples/example_wp_log_peyton_manning.csv
+
+This csv contains how many person saw Peyton Manning wikipedia page express in log. 
+
+First step is to import the package and the csv file
+
+The csv file must have specific columns names. 
+This format must be respected otherwise prophet will not work. 
+
+- ds reflect the date (YYYY-MM-DD, or YYYY-MM-DD HH:MM:SS) 
+- y represent the output in this date (numerical values)
+
+```{r}
+library(prophet)
+df <- read.csv("test.csv")
+head(df)
+```
+
+We call the prophet function and we pass our dataframe as the first argument.
+There are additional arguments that enable how prophet fits the data. 
+We will see some of the in the next part. 
+```{r}
+m <- prophet(df)
+```
+
+The make_future_dataframe function takes the model object and a number of periods to forecast.  By default it will also include the historical dates so we can evaluate in-sample fit.
+```{r}
+future <- make_future_dataframe(m, periods = 365)
+tail(future)
+```
+
+We use the predict() function to forecast on the date that we built using make_future_dataframe. 
+It takes 2 arguments the "m" our model and "future" created from the previous function.
+predict() return a dataframe with different information. 
+here are some of them : 
+
+- yhat wich is our forecast
+- yhat_lower and yhat_upper which represent our uncertainty interval
+  
+```{r}
+forecast <- predict(m, future)
+head(forecast[c('ds', 'yhat', 'yhat_lower', 'yhat_upper')])
+```
+
+You can plot the forecast, by passing in the model and the forecast dataframe.
+You will have the 1st part of the plot that represent past data and the 2nd part which is the forecast with the uncertainty interval.
+```{r}
+plot(m,forecast)
+```
+
+Finnaly,the prophet_plot_components() break down the forecast into 3 components.
+The trend, the week seasonality, and the year seasonality.
+.
+```{r}
+prophet_plot_components(m, forecast)
+```
+
+
+# hyperparameter and how to tune the model (specifity in different work environement)
+# Prophet pros and cons 
+
+# Bibliography - usefull link - and data source 
+https://facebook.github.io/prophet/docs/quick_start.html#r-api
