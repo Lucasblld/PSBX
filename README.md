@@ -6,7 +6,7 @@ I will also report different update on important folders/files.
 
 ## Update : 
 
-Dataframe manipulation last version : 18/11/2020
+Dataframe manipulation last version : 20/12/2020
 
 
 
